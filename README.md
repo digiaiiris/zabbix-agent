@@ -1,8 +1,8 @@
 # Overview
 
-Build Digia Pulssi specific Zabbix Agent installation packages. The changes introduced by Pulssi are as follows:
+Build Digia Iiris specific Zabbix Agent installation packages. The changes introduced by Iiris are as follows:
 
-- Use a forked Zabbix agent at https://github.com/digiapulssi/zabbix. The changes in the forked version
+- Use a forked Zabbix agent at https://github.com/digiaiiris/zabbix. The changes in the forked version
   enable new security features that allow better control at the monitored host as to the files and
   logs monitored
 - Bundle monitoring scripts at https://github.com/digiapulssi/zabbix-monitoring-scripts
@@ -11,21 +11,20 @@ Build Digia Pulssi specific Zabbix Agent installation packages. The changes intr
 
 # Download
 
-Download the latest installation packages from https://github.com/digiapulssi/zabbix-agent/releases/latest
+Download the latest installation packages from https://github.com/digiaiiris/zabbix-agent/releases/latest
 
-- CentOS / RedHat / Oracle Linux 5.x: zabbix-agent-pulssi-VERSION.el5.x86_64.rpm
-- CentOS / RedHat / Oracle Linux 6.x / Amazon Linux v1 (AMI versions 2017.09 or earlier): zabbix-agent-pulssi-VERSION.el6.x86_64.rpm
-- CentOS / RedHat / Oracle Linux 7.x / Amazon Linux v2 (AMI versions 2017.12 onwards): zabbix-agent-pulssi-VERSION.el7.x86_64.rpm
-- Debian 7 (Wheezy): zabbix-agent-pulssi_VERSION.wheezy-1_amd64.deb
-- Debian 8 (Jessie): zabbix-agent-pulssi_VERSION.jessie-1_amd64.deb
-- Debian 9 (Stretch): zabbix-agent-pulssi_VERSION.stretch-1_amd64.deb
+- CentOS / RedHat / Oracle Linux 6.x / Amazon Linux v1 (AMI versions 2017.09 or earlier): zabbix-agent-iiris-VERSION.el6.x86_64.rpm
+- CentOS / RedHat / Oracle Linux 7.x / Amazon Linux v2 (AMI versions 2017.12 onwards): zabbix-agent-iiris-VERSION.el7.x86_64.rpm
+- Debian 8 (Jessie): zabbix-agent-iiris_VERSION.jessie-1_amd64.deb
+- Debian 9 (Stretch): zabbix-agent-iiris_VERSION.stretch-1_amd64.deb
+- Debian 10 (Buster): zabbix-agent-iiris_VERSION.buster-1_amd64.deb
 
 # Installation and Configuration
 
 ### Install over Existing Zabbix Agent Installation
 
 In case you already have the official Zabbix Agent installed on your system,
-you should uninstall it before installing digiapulssi version.
+you should uninstall it before installing digiaiiris version.
 
 ```
 yum erase zabbix-agent (CentOS / RedHat / Orace Linux / Amazon Linux)
@@ -37,7 +36,7 @@ apt-get purge zabbix-agent (Debian)
 Install the downloaded RPM package with the following command:
 
 ```
-yum localinstall zabbix-agent-pulssi-VERSION.DISTRIBUTION.x86_64.rpm
+yum localinstall zabbix-agent-iiris-VERSION.DISTRIBUTION.x86_64.rpm
 (for CentOS/RedHat/Oracle Linux 5.x you need to add --nogpgcheck flag)
 ```
 
@@ -54,10 +53,10 @@ Install the downloaded DEB package either with `dpkg -i` or `gdebi` command:
 
 Alternative 1: Use `dpkg -i` and install dependencies manually:
 ```
-dpkg -i zabbix-agent-pulssi_VERSION.DISTRIBUTION-1_amd64.deb
+dpkg -i zabbix-agent-iiris_VERSION.DISTRIBUTION-1_amd64.deb
 (the command shows missing dependencies as `Package nnn not installed`)
 apt-get install --fix-broken
-(this will install the missing dependencies and finish zabbix-agent-pulssi package installation)
+(this will install the missing dependencies and finish zabbix-agent-iiris package installation)
 ```
 
 Alternative 2: Use `gdebi` that installs dependencies automatically:
@@ -65,7 +64,7 @@ Alternative 2: Use `gdebi` that installs dependencies automatically:
 ```
 apt-get update
 apt-get install gdebi
-gdebi zabbix-agent-pulssi_VERSION.DISTRIBUTION-1_amd64.deb
+gdebi zabbix-agent-iiris_VERSION.DISTRIBUTION-1_amd64.deb
 ```
 
 *Note with Ubuntu Trusty (14.04)*
@@ -90,7 +89,7 @@ dpkg -s libpcre3
 Make the configuration changes (see below), and restart the agent:
 
 ```
-service zabbix-agent-pulssi restart
+service zabbix-agent-iiris restart
 ```
 
 ### Configuration
@@ -131,7 +130,7 @@ Check for the following lines which indicate connection problems:
 84:20170704:065535.728 active check configuration update from [ZABBIX_SERVER_DEST_ADDRESS:10051] started to fail (cannot connect to [[ZABBIX_SERVER_DEST_ADDRESS]:10051]: [111] Connection refused
 ```
 
-The next line indicates that connection works but the host is not yet configured in Digia Pulssi side:
+The next line indicates that connection works but the host is not yet configured in Digia Iiris side:
 ```
 64:20170704:071034.703 no active checks on server [ZABBIX_SERVER_DEST_ADDRESS:10051]: host [HOSTNAME] not found
 ```
@@ -166,9 +165,9 @@ chmod 0644 /etc/zabbix/zabbix-agentd.d/SCRIPTNAME.conf
 NOTE! Do not leave any backup files etc. under /etc/zabbix/zabbix-agend.d/ because
 all the files in the directory are considered as actual configuration files and loaded by Zabbix Agent.
 
-# How to Release a New Version (for Digia Pulssi Developers)
+# How to Release a New Version (for Digia Iiris Developers)
 
-Update PULSSI_RELEASE_VERSION in Dockerfile files (see below).
+Update IIRIS_RELEASE_VERSION in Dockerfile files (see below).
 
 Run the build script in the repository root directory:
 
@@ -186,15 +185,15 @@ The packaging has been adapted from the instructions at http://zabbix.org/wiki/D
 
 Environment variables controlling the versions are defined in Dockerfile.* files.
 
-PULSSI_RELEASE_VERSION environment variable defines Digia Pulssi release/build number
-eg. 3.2.3-PULSSI_RELEASE_VERSION.
+IIRIS_RELEASE_VERSION environment variable defines Digia Iiris release/build number
+eg. 3.2.3-IIRIS_RELEASE_VERSION.
 
 To release a package based on a newer Zabbix Agent version:
 
 - Update ZABBIX_VERSION
-- Set PULSSI_RELEASE_VERSION to 0
+- Set IIRIS_RELEASE_VERSION to 0
 - Update URL_ZABBIX_SRPM
 
-To release a newer Digia Pulssi specific Zabbix Agent version using the same Zabbix Agent version than before:
+To release a newer Digia Iiris specific Zabbix Agent version using the same Zabbix Agent version than before:
 
-- Increase PULSSI_RELEASE_VERSION by 1
+- Increase IIRIS_RELEASE_VERSION by 1
