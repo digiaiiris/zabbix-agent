@@ -61,7 +61,7 @@ sed -i 's/^%postun agent$/%postun agent-iiris/' $RPMBUILD/SPECS/zabbix.spec
 sed -i 's/^%files agent$/%files agent-iiris/' $RPMBUILD/SPECS/zabbix.spec
 
 # Change release/build number (3.2.3-X where X is build number)
-sed -i 's/^\(Release:\s\+\)[0-9]\+%/\1'${IIRIS_RELEASE_VERSION}'%/' $RPMBUILD/SPECS/zabbix.spec
+sed -i 's/^\(Release:\s\+%{[.:?a-z0-9]\+}\)[0-9]\+%/\1'${IIRIS_RELEASE_VERSION}'%/' $RPMBUILD/SPECS/zabbix.spec
 
 # jq as dependency because it's required by docker monitoring script and
 # usually by other monitoring scripts too
