@@ -51,6 +51,9 @@ sed -i 's/^Package: zabbix-agent$/Package: zabbix-agent-iiris/' debian/control
 sed -i 's/dh_installinit -p zabbix-agent/dh_installinit -p zabbix-agent-iiris/' debian/rules
 rename 's/zabbix-agent\.(.*)$/zabbix-agent-iiris.$1/' debian/zabbix-agent.*
 
+# Prepend replaces-field for overwriting the old agent
+sed -i '/Suggests: logrotate/i Replaces: zabbix-agent-pulssi' debian/control
+
 # jq as dependency because it's required by docker monitoring script and
 # usually by other monitoring scripts too
 sed -i 's/^\(Depends: \${shlibs:Depends}, \${misc:Depends}, adduser, lsb-base\)$/\1, jq/' debian/control
