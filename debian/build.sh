@@ -64,6 +64,9 @@ sed -i '/^Hostname=Zabbix server/d' conf/zabbix_agentd.conf
 # Bigger timeout
 sed -i '/^# Timeout=3/a Timeout=15' conf/zabbix_agentd.conf
 
+# Add an alias for systemd service file
+sed -i '/^\[Install\]$/a Alias=zabbix-agent.service' lib/systemd/system/zabbix-agent-iiris.service
+
 # Get Pulssi monitoring scripts
 mkdir zabbix-monitoring-scripts
 pushd zabbix-monitoring-scripts
