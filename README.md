@@ -21,7 +21,7 @@ Download the latest installation packages from https://github.com/digiaiiris/zab
 
 # Installation and Configuration
 
-### Installion over Existing Zabbix Agent Installation
+### Installation over Existing Zabbix Agent Installation
 
 In case you already have the official Zabbix Agent installed on your system,
 you should uninstall it before installing digiaiiris version.
@@ -93,11 +93,11 @@ AllowedPath=log.count,^/var/log/example2/.*$
 
 ### Service Configuration
 
-After the agent has been configured, start the agent and configure it to auto-start on boot as follows:
+After the agent has been configured, restart the service and configure it to auto-start on boot as follows:
 
 CentOS / RedHat / Oracle Linux / Amazon Linux:
 ```
-service zabbix-agent start
+service zabbix-agent restart
 chkconfig zabbix-agent on
 ```
 
