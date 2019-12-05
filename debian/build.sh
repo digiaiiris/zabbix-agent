@@ -56,6 +56,7 @@ sed -i 's/dh_installinit -p zabbix-agent/dh_installinit -p zabbix-agent-iiris --
 rename 's/zabbix-agent\.(.*)$/zabbix-agent-iiris.$1/' debian/zabbix-agent.*
 mv debian/zabbix-agent-iiris.init debian/zabbix-agent-iiris.zabbix-agent.init
 mv debian/zabbix-agent-iiris.service debian/zabbix-agent-iiris.zabbix-agent.service
+mv debian/zabbix-agent-iiris.tmpfile debian/zabbix-agent-iiris.zabbix-agent.tmpfile
 
 # Prepend replaces-field for overwriting the old agent
 sed -i '/Suggests: logrotate/i Replaces: zabbix-agent-pulssi' debian/control
