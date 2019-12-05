@@ -21,7 +21,7 @@ Download the latest installation packages from https://github.com/digiaiiris/zab
 
 # Installation and Configuration
 
-### Install over Existing Zabbix Agent Installation
+### Installion over Existing Zabbix Agent Installation
 
 In case you already have the official Zabbix Agent installed on your system,
 you should uninstall it before installing digiaiiris version.
@@ -38,13 +38,6 @@ Install the downloaded RPM package with the following command:
 ```
 yum localinstall zabbix-agent-iiris-VERSION.DISTRIBUTION.x86_64.rpm
 (for CentOS/RedHat/Oracle Linux 5.x you need to add --nogpgcheck flag)
-```
-
-Make the configuration changes (see below), start the agent and configure it to auto-start on boot:
-
-```
-service zabbix-agent start
-chkconfig zabbix-agent on
 ```
 
 ### Installation on Debian
@@ -67,32 +60,9 @@ apt-get install gdebi
 gdebi zabbix-agent-iiris_VERSION.DISTRIBUTION-1_amd64.deb
 ```
 
-*Note with Ubuntu Trusty (14.04)*
+*Note* with older Debians (Jessie and Stretch), see separate notes below.
 
-Zabbix Agent version 3.4.4 (or later) requires libpcre3 version 8.35 as its dependency.
-Ubuntu Trusty however has only version 8.31 available by default.
-To install Zabbix Agent on Ubuntu Trusty you need to first install libpcre3 version 8.35 manually.
-
-* Pick up the correct architecture and mirror at https://packages.debian.org/jessie/libpcre3
-* Download the installation package and install it using dpkg or gdebi
-
-```
-(required only for Ubuntu Trusty)
-# amd64 architecture selected as an example
-curl -OJ http://ftp.fi.debian.org/debian/pool/main/p/pcre3/libpcre3_8.35-3.3+deb8u4_amd64.deb
-dpkg -i libpcre3_8.35-3.3+deb8u4_amd64.deb
-
-# Verify libpcre3 version number (should show 8.35)
-dpkg -s libpcre3
-```
-
-Make the configuration changes (see below), and restart the agent:
-
-```
-service zabbix-agent-iiris restart
-```
-
-### Configuration
+### Agent Configuration
 
 After installation, you should configure the following sections in /etc/zabbix/zabbix_agentd.conf file.
 Find the current configuration lines and replace them as follows:
@@ -120,6 +90,50 @@ AllowedPath=^/var/log/example/.*$
 To allow only log.count monitoring item for files under /var/log/example2/:
 AllowedPath=log.count,^/var/log/example2/.*$
 ```
+
+### Service Configuration
+
+After the agent has been configured, start the agent and configure it to auto-start on boot as follows:
+
+CentOS / RedHat / Oracle Linux / Amazon Linux:
+```
+service zabbix-agent start
+chkconfig zabbix-agent on
+```
+
+Debian:
+```
+service zabbix-agent restart
+systemctl enable zabbix-agent
+```
+
+### Notes with Older Debians (Jessie and Stretch)
+
+#### libssl
+
+Debian Jessie and Stretch versions no longer support libssl1.1.0. Download the correct file (eg. `libssl1.1_1.1.0l-1~deb9u1_amd64.deb`)
+from http://security-cdn.debian.org/debian-security/pool/updates/main/o/openssl/
+and install it manually before installing the agent.
+
+#### Ubuntu Trusty (14.04): libpcre3 library
+
+Zabbix Agent version 3.4.4 (or later) requires libpcre3 version 8.35 as its dependency.
+Ubuntu Trusty however has only version 8.31 available by default.
+To install Zabbix Agent on Ubuntu Trusty you need to first install libpcre3 version 8.35 manually.
+
+* Pick up the correct architecture and mirror at https://packages.debian.org/jessie/libpcre3
+* Download the installation package and install it using dpkg or gdebi
+
+```
+(required only for Ubuntu Trusty)
+# amd64 architecture selected as an example
+curl -OJ http://ftp.fi.debian.org/debian/pool/main/p/pcre3/libpcre3_8.35-3.3+deb8u4_amd64.deb
+dpkg -i libpcre3_8.35-3.3+deb8u4_amd64.deb
+
+# Verify libpcre3 version number (should show 8.35)
+dpkg -s libpcre3
+```
+
 
 # Troubleshooting
 

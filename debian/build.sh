@@ -48,8 +48,14 @@ cd "$NEW_DIR"
 
 # Change zabbix-agent package name to zabbix-agent-iiris
 sed -i 's/^Package: zabbix-agent$/Package: zabbix-agent-iiris/' debian/control
-sed -i 's/dh_installinit -p zabbix-agent/dh_installinit -p zabbix-agent-iiris/' debian/rules
+
+# Use zabbix-agent as the systemd service name even though package name is zabbix-agent-iiris
+# so that the service name is similar in Debian and RHEL installations (as well as with the official zabbix agent)
+# Look at dh_installinit man page about the init and service file nameing with --name option
+sed -i 's/dh_installinit -p zabbix-agent/dh_installinit -p zabbix-agent-iiris --name=zabbix-agent/' debian/rules
 rename 's/zabbix-agent\.(.*)$/zabbix-agent-iiris.$1/' debian/zabbix-agent.*
+mv debian/zabbix-agent-iiris.init debian/zabbix-agent-iiris.zabbix-agent.init
+mv debian/zabbix-agent-iiris.service debian/zabbix-agent-iiris.zabbix-agent.service
 
 # Prepend replaces-field for overwriting the old agent
 sed -i '/Suggests: logrotate/i Replaces: zabbix-agent-pulssi' debian/control
@@ -63,9 +69,6 @@ sed -i 's/^\(Depends: \${shlibs:Depends}, \${misc:Depends}, adduser, lsb-base\)$
 sed -i '/^Hostname=Zabbix server/d' conf/zabbix_agentd.conf
 # Bigger timeout
 sed -i '/^# Timeout=3/a Timeout=15' conf/zabbix_agentd.conf
-
-# Add an alias for systemd service file
-sed -i '/^\[Install\]$/a Alias=zabbix-agent.service' debian/zabbix-agent-iiris.service
 
 # Get Pulssi monitoring scripts
 mkdir zabbix-monitoring-scripts
