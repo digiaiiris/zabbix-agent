@@ -48,8 +48,15 @@ cd "$NEW_DIR"
 
 # Change zabbix-agent package name to zabbix-agent-iiris
 sed -i 's/^Package: zabbix-agent$/Package: zabbix-agent-iiris/' debian/control
-sed -i 's/dh_installinit -p zabbix-agent/dh_installinit -p zabbix-agent-iiris/' debian/rules
+
+# Use zabbix-agent as the systemd service name even though package name is zabbix-agent-iiris
+# so that the service name is similar in Debian and RHEL installations (as well as with the official zabbix agent)
+# Look at dh_installinit man page about the init and service file nameing with --name option
+sed -i 's/dh_installinit -p zabbix-agent/dh_installinit -p zabbix-agent-iiris --name=zabbix-agent/' debian/rules
 rename 's/zabbix-agent\.(.*)$/zabbix-agent-iiris.$1/' debian/zabbix-agent.*
+mv debian/zabbix-agent-iiris.init debian/zabbix-agent-iiris.zabbix-agent.init
+mv debian/zabbix-agent-iiris.service debian/zabbix-agent-iiris.zabbix-agent.service
+mv debian/zabbix-agent-iiris.tmpfile debian/zabbix-agent-iiris.zabbix-agent.tmpfile
 
 # Prepend replaces-field for overwriting the old agent
 sed -i '/Suggests: logrotate/i Replaces: zabbix-agent-pulssi' debian/control

@@ -1,8 +1,8 @@
-FROM centos:7
+FROM centos:8
 
 # Zabbix agent build prerequisites
 RUN yum install -y git autoconf autoheader automake wget unzip gcc glibc-static rename
-RUN yum install -y https://dl.fedoraproject.org/pub/epel/7/x86_64/Packages/e/epel-release-7-12.noarch.rpm
+RUN yum install -y https://dl.fedoraproject.org/pub/epel/8/Everything/x86_64/Packages/e/epel-release-8-7.el8.noarch.rpm
 RUN yum install -y rpm-build fedora-packager
 
 # Required for Zabbix tarball compiling
@@ -27,6 +27,6 @@ CMD /build.sh
 ENV ZABBIX_VERSION=4.0.10
 ENV ZABBIX_BRANCH=iiris-$ZABBIX_VERSION
 ENV IIRIS_RELEASE_VERSION=0
-ENV URL_ZABBIX_SRPM https://repo.zabbix.com/zabbix/4.0/rhel/7/SRPMS/zabbix-4.0.10-1.el7.src.rpm
+ENV URL_ZABBIX_SRPM https://repo.zabbix.com/zabbix/4.0/rhel/8/SRPMS/zabbix-4.0.10-1.el8.src.rpm
 ENV RPMBUILD=/root/rpmbuild
 ENV JQ_DEPENDENCY=true
