@@ -42,9 +42,15 @@ yum localinstall zabbix-agent-iiris-VERSION.DISTRIBUTION.x86_64.rpm
 
 ### Installation on Debian
 
-Install the downloaded DEB package either with `dpkg -i` or `gdebi` command:
+Install the downloaded DEB package either with `apt`, `dpkg -i` or `gdebi` command:
 
-Alternative 1: Use `dpkg -i` and install dependencies manually:
+Alternative 1 (for Debian 9 "Stretch" and above).
+Use `apt` that installs dependencies automatically:
+```
+apt install ./zabbix-agent-iiris_VERSION.DISTRIBUTION-1_amd64.deb
+```
+
+Alternative 2: Use `dpkg -i` and install dependencies manually:
 ```
 dpkg -i zabbix-agent-iiris_VERSION.DISTRIBUTION-1_amd64.deb
 (the command shows missing dependencies as `Package nnn not installed`)
@@ -52,7 +58,7 @@ apt-get install --fix-broken
 (this will install the missing dependencies and finish zabbix-agent-iiris package installation)
 ```
 
-Alternative 2: Use `gdebi` that installs dependencies automatically:
+Alternative 3: Use `gdebi` that installs dependencies automatically:
 
 ```
 apt-get update
@@ -106,6 +112,35 @@ Debian:
 service zabbix-agent restart
 systemctl enable zabbix-agent
 ```
+
+### Docker Swarm service monitoring
+
+# Installing Python
+
+In order to use Docker Swarm service monitoring, it is required to install
+Python and needful libraries for monitoring. Python is usually available on
+Linux distributions. If it is not present on your target system, there are
+several online installation documentations available. For instance, one good
+documentation is Real Python's installation & setup guide located here:
+https://realpython.com/installing-python/
+
+# Installing required libraries
+
+For Python version 3, install dependencies using pip:
+```
+pip3 install docker requests urllib3
+```
+
+For Python version 2, install specific versions of libraries:
+```
+pip install docker==2.7.0 requests==2.23.0 urllib3==1.24.3
+```
+
+Add user "zabbix" to group "docker":
+```
+sudo usermod -aG docker zabbix
+```
+
 
 ### Notes with Older Debians (Jessie and Stretch)
 
