@@ -126,13 +126,15 @@ https://realpython.com/installing-python/
 
 # Installing required libraries
 
-For Python version 3, install dependencies using pip:
+For Python version 3, uninstall old "docker-py" dependency and install new ones using pip:
 ```
+pip3 uninstall docker-py
 pip3 install docker requests urllib3 python-dateutil
 ```
 
-For Python version 2, install specific versions of libraries:
+For Python version 2, uninstall old "docker-py" dependency and install new, specific versions of libraries:
 ```
+pip uninstall docker-py
 pip install docker==2.7.0 requests==2.23.0 urllib3==1.24.3 python-dateutil==2.8.1
 ```
 
