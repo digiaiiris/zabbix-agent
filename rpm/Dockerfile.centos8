@@ -16,8 +16,8 @@ RUN gem install sass --version '=3.4.22'
 RUN dnf install -y mysql-devel postgresql-devel net-snmp-devel openldap-devel gnutls-devel sqlite-devel unixODBC-devel curl-devel OpenIPMI-devel java-devel libxml2-devel openssl-devel libssh2-devel gettext
 
 # Required by Zabbix SRPM spec that builds Zabbix server and proxy in addition to the agent. These have to be installed from Zabbix Official Repository
-#RUN dnf install -y https://repo.zabbix.com/non-supported/rhel/7/x86_64/iksemel-1.4-2.el7.centos.x86_64.rpm
-#RUN dnf install -y https://repo.zabbix.com/non-supported/rhel/7/x86_64/iksemel-devel-1.4-2.el7.centos.x86_64.rpm
+#RUN dnf install -y https://repo.zabbix.com/non-supported/rhel/7/x86_64/iksemel-1.4-2.el8.centos.x86_64.rpm
+#RUN dnf install -y https://repo.zabbix.com/non-supported/rhel/7/x86_64/iksemel-devel-1.4-2.el8.centos.x86_64.rpm
 
 # Additional dependencies by Zabbix version 4.0
 RUN dnf install -y libevent-devel pcre-devel

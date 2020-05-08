@@ -27,7 +27,7 @@ docker build -t zabbix-rpm:centos8 -f Dockerfile.centos8 .
 # Run the following commands to produce new installation packages for different platforms
 docker run --rm -v $(pwd)/RPMS:/root/rpmbuild/RPMS zabbix-rpm:centos6
 docker run --rm -v $(pwd)/RPMS:/root/rpmbuild/RPMS zabbix-rpm:centos7
-#docker run --rm -v $(pwd)/RPMS:/root/rpmbuild/RPMS zabbix-rpm:centos8
+docker run --rm -v $(pwd)/RPMS:/root/rpmbuild/RPMS zabbix-rpm:centos8
 
 # Remove "centos" from CentOS 7 package name
 sudo $RENAME 's/zabbix-agent-iiris-([0-9.-]+)\.(el[\d])\.centos\.x86_64\.rpm/zabbix-agent-iiris-$1.$2.x86_64.rpm/' RPMS/x86_64/*.rpm
