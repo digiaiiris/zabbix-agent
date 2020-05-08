@@ -75,7 +75,7 @@ fi
 ##############################################################33
 # Monitoring scripts under /etc/zabbix/scripts
 
-sed -i '/^Source15/a Source16:		scripts.tar.gz' $RPMBUILD/SPECS/zabbix.spec
+sed -i '/^Source17/a Source18:		scripts.tar.gz' $RPMBUILD/SPECS/zabbix.spec
 sed -i '/^%prep/a %setup -T -b 16 -q -n scripts' $RPMBUILD/SPECS/zabbix.spec
 
 # install section
@@ -95,7 +95,7 @@ done
 ##############################################################33
 # Monitoring script configuration files under /etc/zabbix/zabbix_agentd.d
 
-sed -i '/^Source16/a Source17:		scripts_config.tar.gz' $RPMBUILD/SPECS/zabbix.spec
+sed -i '/^Source18/a Source19:		scripts_config.tar.gz' $RPMBUILD/SPECS/zabbix.spec
 sed -i '/^%setup -T -b 16/a %setup -T -a 17 -q -c -n zabbix_agentd.d' $RPMBUILD/SPECS/zabbix.spec
 
 # install section
