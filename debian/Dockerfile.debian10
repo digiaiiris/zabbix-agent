@@ -23,4 +23,4 @@ CMD ["/bin/bash", "/build.sh"]
 ENV ZABBIX_VERSION=4.0.11
 ENV ZABBIX_BRANCH=iiris-$ZABBIX_VERSION
 ENV IIRIS_RELEASE_VERSION=0
-ENV URL_ZABBIX_DSC https://repo.zabbix.com/zabbix/4.0/debian/pool/main/z/zabbix/zabbix_4.0.11-2+buster.dsc
+ENV URL_ZABBIX_DSC https://repo.zabbix.com/zabbix/4.0/debian/pool/main/z/zabbix/zabbix_4.0.11-1+buster.dsc
