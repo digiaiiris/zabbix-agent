@@ -33,7 +33,13 @@ apt-get purge zabbix-agent (Debian)
 
 ### Installation on CentOS / RedHat / Oracle Linux / Amazon Linux
 
-Install the downloaded RPM package with the following command:
+For CentOS/RedHat/Oracle Linux 8, install the downloaded RPM package with the following command:
+
+```
+dnf localinstall zabbix-agent-iiris-VERSION.DISTRIBUTION.x86_64.rpm
+```
+
+For older CentOS/RedHat/Oracle Linux versions, install the downloaded RPM package with the following command:
 
 ```
 yum localinstall zabbix-agent-iiris-VERSION.DISTRIBUTION.x86_64.rpm
