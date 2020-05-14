@@ -1,32 +1,35 @@
 FROM centos:8
 
 # Zabbix agent build prerequisites
-RUN yum install -y git autoconf autoheader automake wget unzip gcc glibc-static rename
-RUN yum install -y https://dl.fedoraproject.org/pub/epel/8/Everything/x86_64/Packages/e/epel-release-8-7.el8.noarch.rpm
-RUN yum install -y rpm-build fedora-packager
+RUN dnf install -y git wget
+RUN dnf group install -y "Development Tools"
+RUN dnf config-manager --enable PowerTools
+RUN dnf install -y glibc-static
+RUN dnf install -y epel-release
+RUN dnf install -y fedora-packager
 
 # Required for Zabbix tarball compiling
-RUN yum install -y ruby rubygems
+RUN dnf install -y ruby rubygems
 RUN gem install sass --version '=3.4.22'
 
 # Required by Zabbix SRPM spec that builds Zabbix server and proxy in addition to the agent
-RUN yum install -y mysql-devel postgresql-devel net-snmp-devel openldap-devel gnutls-devel sqlite-devel unixODBC-devel curl-devel OpenIPMI-devel java-devel libxml2-devel openssl-devel libssh2-devel gettext
+RUN dnf install -y mysql-devel postgresql-devel net-snmp-devel openldap-devel gnutls-devel sqlite-devel unixODBC-devel curl-devel OpenIPMI-devel java-devel libxml2-devel openssl-devel libssh2-devel gettext
 
 # Required by Zabbix SRPM spec that builds Zabbix server and proxy in addition to the agent. These have to be installed from Zabbix Official Repository
-RUN yum install -y https://repo.zabbix.com/non-supported/rhel/7/x86_64/iksemel-1.4-2.el7.centos.x86_64.rpm
-RUN yum install -y https://repo.zabbix.com/non-supported/rhel/7/x86_64/iksemel-devel-1.4-2.el7.centos.x86_64.rpm
+#RUN dnf install -y https://repo.zabbix.com/non-supported/rhel/7/x86_64/iksemel-1.4-2.el8.centos.x86_64.rpm
+#RUN dnf install -y https://repo.zabbix.com/non-supported/rhel/7/x86_64/iksemel-devel-1.4-2.el8.centos.x86_64.rpm
 
 # Additional dependencies by Zabbix version 4.0
-RUN yum install -y libevent-devel pcre-devel
+RUN dnf install -y libevent-devel pcre-devel
 
 # Build script
 WORKDIR /build
 COPY build.sh /build.sh
 RUN chmod a+x /build.sh
 CMD /build.sh
-ENV ZABBIX_VERSION=4.0.10
+ENV ZABBIX_VERSION=4.0.11
 ENV ZABBIX_BRANCH=iiris-$ZABBIX_VERSION
-ENV IIRIS_RELEASE_VERSION=1
-ENV URL_ZABBIX_SRPM https://repo.zabbix.com/zabbix/4.0/rhel/8/SRPMS/zabbix-4.0.10-1.el8.src.rpm
+ENV IIRIS_RELEASE_VERSION=0
+ENV URL_ZABBIX_SRPM https://repo.zabbix.com/zabbix/4.0/rhel/8/SRPMS/zabbix-4.0.11-1.el8.src.rpm
 ENV RPMBUILD=/root/rpmbuild
 ENV JQ_DEPENDENCY=true
