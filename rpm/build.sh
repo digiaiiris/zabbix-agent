@@ -5,7 +5,7 @@ set -ex
 # (see usage in Dockerfile.* files)
 
 # Extract CentOS version number from /etc/os-release
-CENTOS_VERSION=$(cat /etc/os-release | grep "^VERSION=" | sed 's/^VERSION=\"\([6-8]\) .*/\1/')
+CENTOS_VERSION=$(cat /etc/os-release | grep "^VERSION=" | sed 's/^VERSION=\"\([0-9]\+\) .*/\1/')
 
 # Get the SRPM containing Zabbix Official RPM packaging sources
 wget -nv "$URL_ZABBIX_SRPM"
@@ -78,10 +78,13 @@ fi
 ##############################################################33
 # Monitoring scripts under /etc/zabbix/scripts
 
-if [[ ${CENTOS_VERSION} == 8 ]]
+if [[ ${CENTOS_VERSION} >= 8 ]]
 then
    sed -i '/^Source17/a Source18:		scripts.tar.gz' $RPMBUILD/SPECS/zabbix.spec
    sed -i '/^%prep/a %setup -T -b 18 -q -n scripts' $RPMBUILD/SPECS/zabbix.spec
+
+   # Change Python interpreter from version 2 to 3 on newer systems
+   sed -i "1s/python2/python3/" /tmp/zabbix-monitoring-scripts/scripts/*.py
 else
    sed -i '/^Source15/a Source16:		scripts.tar.gz' $RPMBUILD/SPECS/zabbix.spec
    sed -i '/^%prep/a %setup -T -b 16 -q -n scripts' $RPMBUILD/SPECS/zabbix.spec

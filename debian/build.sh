@@ -4,6 +4,9 @@ set -e
 # Run this command only inside docker container with proper environment variables set
 # (see usage in Dockerfile.* files)
 
+# Extract Debian version number from /etc/os-release
+DEBIAN_VERSION=$(cat /etc/os-release | grep "^VERSION=" | sed 's/^VERSION=\"\([0-9]\+\) .*/\1/')
+
 # Get latest sources from Iiris repository, including Iiris changes
 BUILDDIR=$(pwd)
 wget -nv https://github.com/digiaiiris/zabbix/tarball/$ZABBIX_BRANCH
@@ -82,6 +85,11 @@ popd
 
 ##############################################################33
 # Monitoring scripts under /etc/zabbix/scripts
+
+# Change Python interpreter from version 2 to 3 on newer systems
+if [[ ${DEBIAN_VERSION} >= 8 ]]; then
+   sed -i "1s/python2/python3/" /tmp/zabbix-monitoring-scripts/scripts/*.py
+fi
 
 echo "etc/zabbix/scripts" >> debian/zabbix-agent-iiris.dirs
 
