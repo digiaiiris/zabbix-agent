@@ -4,9 +4,6 @@ set -ex
 # Run this command only inside docker container with proper environment variables set
 # (see usage in Dockerfile.* files)
 
-# Extract CentOS version number from /etc/os-release
-CENTOS_VERSION=$(cat /etc/os-release | grep "^VERSION=" | sed 's/^VERSION=\"\([0-9]\+\) .*/\1/')
-
 # Get the SRPM containing Zabbix Official RPM packaging sources
 wget -nv "$URL_ZABBIX_SRPM"
 rpm -ih zabbix-*.src.rpm
@@ -78,8 +75,7 @@ fi
 ##############################################################33
 # Monitoring scripts under /etc/zabbix/scripts
 
-if [[ ${CENTOS_VERSION} >= 8 ]]
-then
+if [[ ${CENTOS_VERSION} -ge "8" ]]; then
    sed -i '/^Source17/a Source18:		scripts.tar.gz' $RPMBUILD/SPECS/zabbix.spec
    sed -i '/^%prep/a %setup -T -b 18 -q -n scripts' $RPMBUILD/SPECS/zabbix.spec
 
