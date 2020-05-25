@@ -84,7 +84,7 @@ popd
 # Monitoring scripts under /etc/zabbix/scripts
 
 # Change Python interpreter from version 2 to 3 on newer systems
-if [[ ${DEBIAN_VERSION} -ge "10" ]]; then
+if [[ ${DEBIAN_VERSION} -ge 10 ]]; then
    sed -i "1s/python2/python3/" zabbix-monitoring-scripts/scripts/*.py
 fi
 
