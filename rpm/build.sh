@@ -4,9 +4,6 @@ set -ex
 # Run this command only inside docker container with proper environment variables set
 # (see usage in Dockerfile.* files)
 
-# Extract CentOS version number from /etc/os-release
-CENTOS_VERSION=$(cat /etc/os-release | grep "^VERSION=" | sed 's/^VERSION=\"\([6-8]\) .*/\1/')
-
 # Get the SRPM containing Zabbix Official RPM packaging sources
 wget -nv "$URL_ZABBIX_SRPM"
 rpm -ih zabbix-*.src.rpm
@@ -44,6 +41,12 @@ mkdir -p /tmp/zabbix-monitoring-scripts
 pushd /tmp/zabbix-monitoring-scripts
 wget -O /tmp/zabbix-monitoring-scripts.tar.gz https://github.com/digiapulssi/zabbix-monitoring-scripts/tarball/master
 tar -zxvf /tmp/zabbix-monitoring-scripts.tar.gz */etc/zabbix/scripts --strip 3
+
+# Change Python interpreter from version 2 to 3 on newer systems
+if [[ ${CENTOS_VERSION} -ge 8 ]]; then
+   sed -i "1s/python2/python3/" scripts/*.py
+fi
+
 tar -zxvf /tmp/zabbix-monitoring-scripts.tar.gz */etc/zabbix/zabbix_agentd.d --strip 3
 tar cvf $RPMBUILD/SOURCES/scripts.tar.gz scripts
 cd zabbix_agentd.d
@@ -78,8 +81,7 @@ fi
 ##############################################################33
 # Monitoring scripts under /etc/zabbix/scripts
 
-if [[ ${CENTOS_VERSION} == 8 ]]
-then
+if [[ ${CENTOS_VERSION} -ge 8 ]]; then
    sed -i '/^Source17/a Source18:		scripts.tar.gz' $RPMBUILD/SPECS/zabbix.spec
    sed -i '/^%prep/a %setup -T -b 18 -q -n scripts' $RPMBUILD/SPECS/zabbix.spec
 else
@@ -104,8 +106,7 @@ done
 ##############################################################33
 # Monitoring script configuration files under /etc/zabbix/zabbix_agentd.d
 
-if [[ ${CENTOS_VERSION} == 8 ]]
-then
+if [[ ${CENTOS_VERSION} -ge 8 ]]; then
    sed -i '/^Source18/a Source19:		scripts_config.tar.gz' $RPMBUILD/SPECS/zabbix.spec
    sed -i '/^%setup -T -b 18/a %setup -T -a 19 -q -c -n zabbix_agentd.d' $RPMBUILD/SPECS/zabbix.spec
 else
