@@ -9,6 +9,7 @@ Build Digia Iiris specific Zabbix Agent installation packages. The changes intro
 - Default configuration does not define hostname but takes it from system hostname
 - Default configuration defines Timeout of 15 seconds (instead of default 3 seconds)
 
+
 # Download
 
 Download the latest installation packages from https://github.com/digiaiiris/zabbix-agent/releases/latest
@@ -18,6 +19,7 @@ Download the latest installation packages from https://github.com/digiaiiris/zab
 - Debian 8 (Jessie): zabbix-agent-iiris_VERSION.jessie-1_amd64.deb
 - Debian 9 (Stretch): zabbix-agent-iiris_VERSION.stretch-1_amd64.deb
 - Debian 10 (Buster): zabbix-agent-iiris_VERSION.buster-1_amd64.deb
+
 
 # Installation and Configuration
 
@@ -45,6 +47,11 @@ For older CentOS/RedHat/Oracle Linux versions, install the downloaded RPM packag
 yum localinstall zabbix-agent-iiris-VERSION.DISTRIBUTION.x86_64.rpm
 (for CentOS/RedHat/Oracle Linux 5.x you need to add --nogpgcheck flag)
 ```
+
+Note: Zabbix Agent is dependent on an application called `jq`. If you have
+`epel-release` package installed on your system, jq-dependency should be
+installed automatically. Otherwise you need to install jq-dependency manually.
+
 
 ### Installation on Debian
 
@@ -119,37 +126,6 @@ service zabbix-agent restart
 systemctl enable zabbix-agent
 ```
 
-### Docker Swarm service monitoring
-
-# Installing Python
-
-In order to use Docker Swarm service monitoring, it is required to install
-Python and needful libraries for monitoring. Python is usually available on
-Linux distributions. If it is not present on your target system, there are
-several online installation documentations available. For instance, one good
-documentation is Real Python's installation & setup guide located here:
-https://realpython.com/installing-python/
-
-# Installing required libraries
-
-For Python version 3, uninstall old "docker-py" dependency and install new ones using pip:
-```
-pip3 uninstall docker-py
-pip3 install docker requests urllib3 python-dateutil
-```
-
-For Python version 2, uninstall old "docker-py" dependency and install new, specific versions of libraries:
-```
-pip uninstall docker-py
-pip install docker==2.7.0 requests==2.23.0 urllib3==1.24.3 python-dateutil==2.8.1
-```
-
-Add user "zabbix" to group "docker":
-```
-sudo usermod -aG docker zabbix
-```
-
-
 ### Notes with Older Debians (Jessie and Stretch)
 
 #### libssl
@@ -203,6 +179,7 @@ nc -zv ZABBIX_SERVER_DEST_ADDRESS 10051
 cat < /dev/tcp/ZABBIX_SERVER_DEST_ADDRESS/10051; echo $?
 ```
 
+
 # Installation of Custom Monitoring Scripts
 
 Sometimes you need to install custom monitoring scripts to your host.
@@ -222,6 +199,7 @@ chmod 0644 /etc/zabbix/zabbix-agentd.d/SCRIPTNAME.conf
 NOTE! Do not leave any backup files etc. under /etc/zabbix/zabbix-agend.d/ because
 all the files in the directory are considered as actual configuration files and loaded by Zabbix Agent.
 
+
 # How to Release a New Version (for Digia Iiris Developers)
 
 Update IIRIS_RELEASE_VERSION in Dockerfile files (see below).
@@ -233,6 +211,7 @@ Run the build script in the repository root directory:
 ```
 
 After building the release, create a new release in Github and upload the packages there.
+
 
 # Implementation Notes
 
@@ -254,3 +233,34 @@ To release a package based on a newer Zabbix Agent version:
 To release a newer Digia Iiris specific Zabbix Agent version using the same Zabbix Agent version than before:
 
 - Increase IIRIS_RELEASE_VERSION by 1
+
+
+# Docker Swarm service monitoring
+
+### Installing Python
+
+In order to use Docker Swarm service monitoring, it is required to install
+Python and needful libraries for monitoring. Python is usually available on
+Linux distributions. If it is not present on your target system, there are
+several online installation documentations available. For instance, one good
+documentation is Real Python's installation & setup guide located here:
+https://realpython.com/installing-python/
+
+### Installing required libraries
+
+For Python version 3, uninstall old "docker-py" dependency and install new ones using pip:
+```
+pip3 uninstall docker-py
+pip3 install docker requests urllib3 python-dateutil
+```
+
+For Python version 2, uninstall old "docker-py" dependency and install new, specific versions of libraries:
+```
+pip uninstall docker-py
+pip install docker==2.7.0 requests==2.23.0 urllib3==1.24.3 python-dateutil==2.8.1
+```
+
+Add user "zabbix" to group "docker":
+```
+sudo usermod -aG docker zabbix
+```
