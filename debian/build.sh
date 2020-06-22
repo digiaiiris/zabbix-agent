@@ -97,6 +97,8 @@ for scriptpath in zabbix-monitoring-scripts/scripts/*; do
 done
 
 # Executable rights in post-install script
+sed -i -e '/configure/a \    chmod 755 /etc/zabbix/zabbix_agentd.d' debian/zabbix-agent-iiris.postinst
+sed -i -e '/configure/a \    chmod 644 /etc/zabbix/zabbix_agentd.d/*' debian/zabbix-agent-iiris.postinst
 sed -i -e '/configure/a \    chmod 755 /etc/zabbix/scripts/*' debian/zabbix-agent-iiris.postinst
 
 ##############################################################33
