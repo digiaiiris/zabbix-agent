@@ -118,6 +118,7 @@ fi
 sed -i '/^%clean/i # install monitoring script configuration files \
 cp ../zabbix_agentd.d/* $RPM_BUILD_ROOT%{_sysconfdir}/zabbix/zabbix_agentd.d/ \
 chmod 0644 $RPM_BUILD_ROOT%{_sysconfdir}/zabbix/zabbix_agentd.d/* \
+chmod 0755 $RPM_BUILD_ROOT%{_sysconfdir}/zabbix/zabbix_agentd.d \
 ' $RPMBUILD/SPECS/zabbix.spec
 
 # %files agent section
