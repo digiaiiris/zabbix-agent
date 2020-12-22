@@ -20,12 +20,10 @@ pushd rpm
 sudo rm -fr RPMS/*
 
 # First build the package creation containers locally
-docker build -t zabbix-rpm:centos6 -f Dockerfile.centos6 .
 docker build -t zabbix-rpm:centos7 -f Dockerfile.centos7 .
 docker build -t zabbix-rpm:centos8 -f Dockerfile.centos8 .
 
 # Run the following commands to produce new installation packages for different platforms
-docker run --rm -v $(pwd)/RPMS:/root/rpmbuild/RPMS zabbix-rpm:centos6
 docker run --rm -v $(pwd)/RPMS:/root/rpmbuild/RPMS zabbix-rpm:centos7
 docker run --rm -v $(pwd)/RPMS:/root/rpmbuild/RPMS zabbix-rpm:centos8
 
@@ -37,13 +35,11 @@ popd
 pushd debian
 
 # First build the package creation containers locally
-docker build -t zabbix-deb:debian8 -f Dockerfile.debian8 .
 docker build -t zabbix-deb:debian9 -f Dockerfile.debian9 .
 docker build -t zabbix-deb:debian10 -f Dockerfile.debian10 .
 #docker build -t zabbix-deb:debian8docker -f Dockerfile.debian8.docker-host-monitoring .
 
 # Then run the following commands to produce new installation packages for different platforms
-docker run --rm -v $(pwd)/DEB:/DEB zabbix-deb:debian8
 docker run --rm -v $(pwd)/DEB:/DEB zabbix-deb:debian9
 docker run --rm -v $(pwd)/DEB:/DEB zabbix-deb:debian10
 #docker run --rm -v $(pwd)/DEB:/DEB zabbix-deb:debian8docker
