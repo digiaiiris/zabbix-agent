@@ -1,9 +1,9 @@
 # Installation of zabbix-agent
-**OS: Linux (any)**
+**OS**: Linux (any)
 
-**Architecture: ppc64le**
+**Architecture**: ppc64le
 
-**Binaries: [Zabbix Downloads](https://www.zabbix.com/download_agents?version=5.0+LTS&release=5.0.9&os=Linux&os_version=Any&hardware=ppc64le&encryption=No+encryption&packaging=Archive)**
+**Binaries**: [Zabbix Downloads](https://www.zabbix.com/download_agents?version=5.0+LTS&release=5.0.9&os=Linux&os_version=Any&hardware=ppc64le&encryption=No+encryption&packaging=Archive)
 
 ## Contents
 * zabbix_agent
@@ -14,31 +14,26 @@
 * zabbix-uninstall
 
 ### zabbix_agent
-Directory containing
-* bin/
+* **bin/**
   * zabbix_get
   * zabbix_sender
-
-* conf/
+* **conf/**
   * /scripts
     * external scripts
   * /zabbix_agentd
     * external script configuration files
-
-* sbin/
+* **sbin/**
   * zabbix_agentd
-
-* zabbix-agent-init (deprecated?)
+* **zabbix-agent-init** (deprecated?)
   * init script for /etc/init.d
-
-* zabbix-agent.service
+* **zabbix-agent.service**
   * systemd service file, used to run agent as a service
 
 ## Creation of installation package
 **Compress the zabbix_agent directory** \
 `tar -zxvf zabbix_agent-5.0.8-linux-ppc64le.tar.gz zabbix_agent`
 
-Deliver the contents of archive/ directory.
+Deliver the contents of `archive/` directory.
 
 
 ## Operating the agent
