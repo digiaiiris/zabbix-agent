@@ -1,4 +1,4 @@
-# Installation of zabbix-agent
+# Zabbix Agent (Iiris)
 **OS**: Linux (any)
 
 **Architecture**: ppc64le
@@ -6,12 +6,11 @@
 **Binaries**: [Zabbix Downloads](https://www.zabbix.com/download_agents?version=5.0+LTS&release=5.0.9&os=Linux&os_version=Any&hardware=ppc64le&encryption=No+encryption&packaging=Archive)
 
 ## Contents
-* zabbix_agent
-* readme.md
-* zabbix_agent-5.0.8-linux-ppc64le.tar
-  * This sould propably be in GitHub releases
-* zabbix-install
-* zabbix-uninstall
+1. zabbix_agent
+2. readme.md
+3. zabbix_agent-5.0.8-linux-ppc64le.tar (move to releases)
+4. zabbix-install
+5. zabbix-uninstall
 
 ### zabbix_agent
 * **bin/**
