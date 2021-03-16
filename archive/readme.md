@@ -6,13 +6,13 @@
 **Binaries**: [Zabbix Downloads](https://www.zabbix.com/download_agents?version=5.0+LTS&release=5.0.9&os=Linux&os_version=Any&hardware=ppc64le&encryption=No+encryption&packaging=Archive)
 
 ## Contents
-1. zabbix_agent
-2. readme.md
-3. zabbix_agent-5.0.8-linux-ppc64le.tar (move to releases)
-4. zabbix-install
-5. zabbix-uninstall
+- zabbix_agent
+- readme.md
+- zabbix_agent-5.0.8-linux-ppc64le.tar (move to releases)
+- zabbix-install
+- zabbix-uninstall
 
-### zabbix_agent
+## zabbix_agent
 * **bin/**
   * zabbix_get
   * zabbix_sender
@@ -28,7 +28,7 @@
 * **zabbix-agent.service**
   * systemd service file, used to run agent as a service
 
-## Creation of installation package
+## Creation of the installation package
 **Compress the zabbix_agent directory** \
 `tar -zxvf zabbix_agent-5.0.8-linux-ppc64le.tar.gz zabbix_agent`
 
