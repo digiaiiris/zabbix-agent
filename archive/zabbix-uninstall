@@ -1,0 +1,12 @@
+#!/bin/bash
+echo "stopping agent service"
+systemctl stop zabbix-agent.service
+echo "removing /etc/zabbix"
+rm -rf /etc/zabbix
+echo "removing /var/run/zabbix"
+rm -rf /var/run/zabbix
+echo "removing /var/log/zabbix"
+rm -rf /var/log/zabbix
+echo "removing service file"
+rm -f /etc/systemd/system/multi-user.target.wants/zabbix-agent.service
+echo "done"

@@ -1,0 +1,65 @@
+#!/bin/bash
+
+echo "Creating installation folder for Zabbix agent under /etc, if already not exists"
+mkdir -p /etc/zabbix
+
+if [ $(grep zabbix /etc/group | wc -l) -gt 0 ]; then
+  echo "Zabbix group already exists"
+else
+  echo "Creating user group for Zabbix"
+  groupadd --system zabbix
+fi
+
+if [ $(grep zabbix /etc/passwd | wc -l) -gt 0 ]; then
+  echo "Zabbix user already exists"
+else
+  echo "Creating user for Zabbix agent"
+  useradd --system -g zabbix -d /usr/lib/zabbix -s /sbin/nologin -c "Zabbix Monitoring System" zabbix
+fi
+
+if [ -e /etc/zabbix/sbin/zabbix_agentd ]; then
+  echo "Zabbix agent already installed, please remove it first."
+  exit 1
+elif [ ! -e zabbix_agent-5.0.8-linux-ppc64le.tar.gz ]; then
+  echo "Zabbix-agent package zabbix_agent-5.0.8-linux-ppc64le.tar.gz is missing from installation folder."
+  exit 1
+fi
+
+echo "Installing zabbix agent"
+gunzip zabbix_agent-5.0.8-linux-ppc64le.tar.gz
+mkdir -p zabbix_agent
+tar xvf zabbix_agent-5.0.8-linux-ppc64le.tar
+
+echo "Moving files to /etc/zabbix"
+cp -r zabbix_agent/bin /etc/zabbix/
+cp -r zabbix_agent/conf /etc/zabbix/
+cp -r zabbix_agent/sbin /etc/zabbix/
+chown -R zabbix /etc/zabbix/
+
+echo "Making logging folder for zabbix and changing its permissions under /var/log/"
+mkdir -p /var/log/zabbix
+chown -R zabbix /var/log/zabbix
+chmod -R o+r /var/log/zabbix
+
+echo "Making pid-file folder for zabbix and changing its permissions under /var/run/"
+mkdir -p /var/run/zabbix/
+chown -R zabbix /var/run/zabbix
+chmod -R o+r /var/run/zabbix
+
+echo "Moving systemd file to /etc/systemd/system/multi-user.target.wants"
+if [ -e zabbix_agent/zabbix-agent.service ]; then
+  cp zabbix_agent/zabbix-agent-init /etc/systemd/system/multi-user.target.wants
+else
+  echo "Cant find zabbix-agent.service file. Make sure it is in the zabbix_agent directory"
+  exit 1
+fi
+echo "Cleaning files from current location"
+rm -rf zabbix_agent
+
+echo "Installation done."
+echo "Run command:"
+echo "sudo systemctl daemon-reload"
+echo "to reload systemd services"
+echo ""
+echo "to start agent, use command"
+echo "sudo systemctl start zabbix-agent.service"
