@@ -1,3 +1,5 @@
+set -e
+
 source ./options.cfg
 
 echo "Downloading official agent archive"
@@ -16,13 +18,28 @@ chown -R root:root zabbix_build/usr/
 
 echo "Configuring agent based on options.cfg"
 sed -i "s/ServerActive=127.0.0.1/ServerActive=$ACTIVE_HOST/g" zabbix_build/etc/zabbix/zabbix_agentd.conf
+echo "Include=$INCLUDE_PATH" >> zabbix_build/etc/zabbix/zabbix_agentd.conf
 
 echo "Copying custom scripts to package"
-mv externalscripts/* zabbix_build/etc/zabbix/scripts/
-mv externalsconf/* zabbix_build/etc/zabbix/zabbix_agentd.conf.d/
+cp -a externalscripts/. zabbix_build/etc/zabbix/scripts/
+cp -a externalconf/. zabbix_build/etc/zabbix/zabbix_agentd.conf.d/
 
-echo "Adding systemd file"
-mv zabbix_agent.service zabbix_build/
+echo "Adding systemd and configuration variables"
+cp zabbix-agent.service zabbix_build/
 
 echo "Repacking..."
-tar -czvf "zabbix_agent-$ZABBIX_VERSION-linux-ppc64le.tar.gz" zabbix_build
+tar -czvf zabbix_agent-$ZABBIX_VERSION-linux-ppc64le.tar.gz zabbix_build
+tar -czvf zabbix_agent-$ZABBIX_VERSION-linux-ppc64le-installation.tar.gz zabbix_agent-$ZABBIX_VERSION-linux-ppc64le.tar.gz zabbix-install zabbix-uninstall options.cfg
+
+echo "Removing temporary build directory"
+rm -rf zabbix_build
+
+echo "Done"
+echo ""
+echo "Deliver package zabbix_agent-$ZABBIX_VERSION-linux-ppc64le-installation.tar.gz"
+echo ""
+echo "Extract package with command:"
+echo "tar -zxvf zabbix_agent-$ZABBIX_VERSION-linux-ppc64le-installation.tar.gz"
+echo ""
+echo "Run installation with command"
+echo "./zabbix-install"

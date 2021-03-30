@@ -20,7 +20,7 @@ else
   useradd --system -g $GROUP -d /usr/lib/zabbix -s /sbin/nologin -c "Zabbix Monitoring System" $USER
 fi
 
-if [ -e $INSTALL_PATH/sbin/zabbix_agentd ]; then
+if [ -e /usr/sbin/zabbix_agentd ]; then
   echo "Zabbix agent already installed, please remove it first."
   exit 1
 elif [ ! -e zabbix_agent-$ZABBIX_VERSION-linux-ppc64le.tar.gz ]; then
@@ -31,10 +31,10 @@ fi
 echo "Extracting zabbix agent"
 mkdir -p /tmp/zabbix_agent
 tar --same-owner --strip-components=1 --no-overwrite-dir -C /tmp/zabbix_agent -zxvf "zabbix_agent-$ZABBIX_VERSION-linux-ppc64le.tar.gz"
-#chown -R zabbix:zabbix /tmp/zabbix_agent/etc/zabbix/*
+
 mv -i /tmp/zabbix_agent/usr/sbin/zabbix_agentd /usr/sbin/
 mv -i /tmp/zabbix_agent/usr/bin/* /usr/bin/
-mv -i /tmp/zabbix_agent/etc/zabbix/ /etc/zabbix
+mv -i /tmp/zabbix_agent/etc/zabbix/* /etc/zabbix
 
 echo "Making logging folder for zabbix and changing its permissions under /var/log/"
 mkdir -p /var/log/zabbix
@@ -64,3 +64,6 @@ echo "to reload systemd services"
 echo ""
 echo "to start agent, use command"
 echo "sudo systemctl start zabbix-agent.service"
+echo ""
+echo "to enable agent on system boot"
+echo "sudo systemctl enable zabbix-agent.service"
