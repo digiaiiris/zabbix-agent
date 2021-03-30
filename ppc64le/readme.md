@@ -3,42 +3,30 @@
 
 **Architecture**: ppc64le
 
-**Binaries**: [Zabbix Downloads](https://www.zabbix.com/download_agents?version=5.0+LTS&release=5.0.9&os=Linux&os_version=Any&hardware=ppc64le&encryption=No+encryption&packaging=Archive)
+**Binaries**: [Zabbix Downloads](https://www.zabbix.com/download_agents?version=5.0+LTS&release=5.0.10&os=Linux&os_version=Any&hardware=ppc64le&encryption=No+encryption&packaging=Archive)
 
 ## Contents
-* zabbix_agent
+* externalscripts
+* externalconf
+* build.sh
+* options.cfg
 * readme.md
-* zabbix_agent-<version>-linux-ppc64le.tar
-  * This sould propably be in GitHub releases
+* zabbix-agent.service
 * zabbix-install
 * zabbix-uninstall
+* **zabbix-agent-init-deprecated**
 
-### zabbix_agent
-Directory containing
-* bin/
-  * zabbix_get
-  * zabbix_sender
-* **conf/**
-  * /scripts
-    * external scripts
-  * /zabbix_agentd
-    * external script configuration files
-* **sbin/**
-  * zabbix_agentd
-* **zabbix-agent-init** (deprecated?)
-  * init script for /etc/init.d
-* **zabbix-agent.service**
-  * systemd service file, used to run agent as a service
-
-* zabbix-agent.service
-  * systemd service file
-
-## Creation of installation package
-Compress the zabbix_agent directory
-`tar -czvf zabbix_agent-<version>-linux-ppc64le.tar.gz zabbix_agent/`
-
-Deliver the contents of ppc64le/ directory.
-
+## Build installation package
+1. Edit agent configurations in options.cfg
+2. Run command \
+`./build.sh`
+3. Deliver the package
+4. Extract it with \
+`tar -zxvf zabbix_agent-<version>-linux-ppc64le-installation.tar.gz`
+5. Run installation script \
+`./zabbix-install`
+6. Remove agent with \
+`./zabbix-uninstall`
 
 ## Operating the agent
 **Reload the service files to include the new service after installation.** \
