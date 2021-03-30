@@ -1,7 +1,9 @@
-# Installation zabbix-agent from arhive for ppc64le architecture and Linux OS.
-## Work in progress
+# Zabbix Agent (Iiris)
+**OS**: Linux (any)
 
-Binaries are from https://www.zabbix.com/download_agents?version=5.0+LTS&release=5.0.9&os=Linux&os_version=Any&hardware=ppc64le&encryption=No+encryption&packaging=Archive
+**Architecture**: ppc64le
+
+**Binaries**: [Zabbix Downloads](https://www.zabbix.com/download_agents?version=5.0+LTS&release=5.0.9&os=Linux&os_version=Any&hardware=ppc64le&encryption=No+encryption&packaging=Archive)
 
 ## Contents
 * zabbix_agent
@@ -16,18 +18,17 @@ Directory containing
 * bin/
   * zabbix_get
   * zabbix_sender
-
-* conf/
+* **conf/**
   * /scripts
     * external scripts
   * /zabbix_agentd
     * external script configuration files
-
-* sbin/
+* **sbin/**
   * zabbix_agentd
-
-* zabbix-agent-init (propably not needed)
+* **zabbix-agent-init** (deprecated?)
   * init script for /etc/init.d
+* **zabbix-agent.service**
+  * systemd service file, used to run agent as a service
 
 * zabbix-agent.service
   * systemd service file
@@ -40,20 +41,20 @@ Deliver the contents of ppc64le/ directory.
 
 
 ## Operating the agent
-Reload the service files to include the new service after installation.
+**Reload the service files to include the new service after installation.** \
 `sudo systemctl daemon-reload`
 
-Start zabbix-agent service
+**Start zabbix-agent service** \
 `sudo systemctl start zabbix-agent.service`
 
-Start zabbix-agent service
+**Start zabbix-agent service** \
 `sudo systemctl stop zabbix-agent.service`
 
-To check the status of zabbix-agent
+**To check the status of zabbix-agent** \
 `sudo systemctl status zabbix-agent.service`
 
-To enable zabbix-agent on every reboot
+**To enable zabbix-agent on every reboot** \
 `sudo systemctl enable zabbix-agent.service`
 
-To disable zabbix-agent on every reboot
+**To disable zabbix-agent on every reboot** \
 `sudo systemctl disable zabbix-agent.service`
