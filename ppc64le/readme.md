@@ -7,14 +7,21 @@
 
 ## Contents
 * externalscripts
+  * directory for external scripts that are extracted to agent via build
 * externalconf
+  * directory for external configurations that are extracted to agent via build
 * build.sh
+  * build script that repacks archive downloaded from zabbix.com
+  * imports external scripts and configurations from local exteranconf and externalscripts directories
 * options.cfg
+  * configuration file for downloading agent from zabbix.com
+  * contains basic zabbix-agent configurations
 * readme.md
 * zabbix-agent.service
+  * service file for systemd
 * zabbix-install
+  * install script that extracts zabbix-agent files and creates local user and group for zabbix
 * zabbix-uninstall
-* **zabbix-agent-init-deprecated**
 
 ## Build installation package
 1. Edit agent configurations in options.cfg
@@ -23,10 +30,10 @@
 3. Deliver the package
 4. Extract it with \
 `tar -zxvf zabbix_agent-<version>-linux-ppc64le-installation.tar.gz`
-5. Run installation script \
-`./zabbix-install`
+5. Run installation script with sudo \
+`sudo ./zabbix-install`
 6. Remove agent with \
-`./zabbix-uninstall`
+`sudo ./zabbix-uninstall`
 
 ## Operating the agent
 **Reload the service files to include the new service after installation.** \
