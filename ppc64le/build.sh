@@ -37,11 +37,9 @@ echo "Include=$EXTERNALCONF*.conf" >> zabbix_build/etc/zabbix/zabbix_agentd.conf
 echo "Copying custom scripts to package and giving execute permissions"
 cp -a externalscripts/. zabbix_build/etc/zabbix/scripts/
 cp -a externalconf/. zabbix_build$EXTERNALCONF
-chmod +x zabbix_build/etc/zabbix/scripts/*
 
 echo "Adding psk file"
 cp psk.key zabbix_build/etc/zabbix/
-chmod 600 zabbix_build/etc/zabbix/psk.key
 
 echo "Repacking..."
 tar -czvf zabbix_agent-$ZABBIX_VERSION-linux-ppc64le.tar.gz zabbix_build

@@ -32,6 +32,8 @@ echo "Extracting zabbix agent"
 mkdir -p /tmp/zabbix_agent
 tar --same-owner --strip-components=1 --no-overwrite-dir -C /tmp/zabbix_agent -zxvf "zabbix_agent-$ZABBIX_VERSION-linux-ppc64le.tar.gz"
 chown -R zabbix:zabbix /tmp/zabbix_agent/etc/
+chmod 600 /tmp/zabbix_agent/etc/zabbix/psk.key
+chmod -R +x /tmp/zabbix_agent/etc/zabbix/scripts/
 chown -R root:root /tmp/zabbix_agent/usr/
 mv -i /tmp/zabbix_agent/usr/sbin/zabbix_agentd /usr/sbin/
 mv -i /tmp/zabbix_agent/usr/bin/* /usr/bin/
