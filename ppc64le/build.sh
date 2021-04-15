@@ -41,6 +41,7 @@ chmod +x zabbix_build/etc/zabbix/scripts/*
 
 echo "Adding psk file"
 cp psk.key zabbix_build/etc/zabbix/
+chmod 600 zabbix_build/etc/zabbix/psk.key
 
 echo "Repacking..."
 tar -czvf zabbix_agent-$ZABBIX_VERSION-linux-ppc64le.tar.gz zabbix_build
