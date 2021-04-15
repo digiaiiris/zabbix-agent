@@ -1,2 +1,4 @@
 rpm/RPMS
 debian/DEB
+*.gz
+*.tar

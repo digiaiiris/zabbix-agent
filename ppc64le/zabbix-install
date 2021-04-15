@@ -32,7 +32,7 @@ echo "Extracting zabbix agent"
 mkdir -p /tmp/zabbix_agent
 tar --same-owner --strip-components=1 --no-overwrite-dir -C /tmp/zabbix_agent -zxvf "zabbix_agent-$ZABBIX_VERSION-linux-ppc64le.tar.gz"
 chown -R zabbix:zabbix /tmp/zabbix_agent/etc/
-
+chown -R root:root /tmp/zabbix_agent/usr/
 mv -i /tmp/zabbix_agent/usr/sbin/zabbix_agentd /usr/sbin/
 mv -i /tmp/zabbix_agent/usr/bin/* /usr/bin/
 mv -i /tmp/zabbix_agent/etc/zabbix/* /etc/zabbix
@@ -48,8 +48,8 @@ chown -R $USER /var/run/zabbix
 chmod -R o+r /var/run/zabbix
 
 echo "Moving systemd file to /etc/systemd/system/multi-user.target.wants"
-if [ -e /tmp/zabbix_agent/zabbix-agent.service ]; then
-  mv zabbix-agent.service /etc/systemd/system/multi-user.target.wants/
+if [ -e ./zabbix-agent.service ]; then
+  mv ./zabbix-agent.service /etc/systemd/system/multi-user.target.wants/
 else
   echo "Cant find zabbix-agent.service file. Make sure it is in the same directory than this install script"
   exit 1
