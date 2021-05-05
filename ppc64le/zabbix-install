@@ -51,7 +51,8 @@ chmod -R o+r /var/run/zabbix
 
 echo "Moving systemd file to /etc/systemd/system/multi-user.target.wants"
 if [ -e ./zabbix-agent.service ]; then
-  mv ./zabbix-agent.service /etc/systemd/system/multi-user.target.wants/
+  mv ./zabbix-agent.service /usr/lib/systemd/system/
+  chown root:root /usr/lib/systemd/system/zabbix-agent.service
 else
   echo "Cant find zabbix-agent.service file. Make sure it is in the same directory than this install script"
   exit 1
