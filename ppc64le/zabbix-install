@@ -1,0 +1,72 @@
+#!/bin/bash
+set -e
+
+source ./options.cfg
+
+echo "Creating installation folder for Zabbix agent under $INSTALL_PATH, if already not exists"
+mkdir -p $INSTALL_PATH
+
+if [ $(grep $GROUP /etc/group | wc -l) -gt 0 ]; then
+  echo "$GROUP group already exists"
+else
+  echo "Creating user group: $GROUP for monitoring user"
+  groupadd --system $GROUP
+fi
+
+if [ $(grep $USER /etc/passwd | wc -l) -gt 0 ]; then
+  echo "$USER user already exists"
+else
+  echo "Creating user: $USER for monitoring"
+  useradd --system -g $GROUP -d /usr/lib/zabbix -s /sbin/nologin -c "Zabbix Monitoring System" $USER
+fi
+
+if [ -e /usr/sbin/zabbix_agentd ]; then
+  echo "Zabbix agent already installed, please remove it first."
+  exit 1
+elif [ ! -e zabbix_agent-$ZABBIX_VERSION-linux-ppc64le.tar.gz ]; then
+  echo "Zabbix-agent package zabbix_agent-$ZABBIX_VERSION-linux-ppc64le.tar.gz is missing from installation folder."
+  exit 1
+fi
+
+echo "Extracting zabbix agent"
+mkdir -p /tmp/zabbix_agent
+tar --same-owner --strip-components=1 --no-overwrite-dir -C /tmp/zabbix_agent -zxvf "zabbix_agent-$ZABBIX_VERSION-linux-ppc64le.tar.gz"
+chown -R zabbix:zabbix /tmp/zabbix_agent/etc/
+chmod 600 /tmp/zabbix_agent/etc/zabbix/psk.key
+chmod -R +x /tmp/zabbix_agent/etc/zabbix/scripts/
+chown -R root:root /tmp/zabbix_agent/usr/
+mv -i /tmp/zabbix_agent/usr/sbin/zabbix_agentd /usr/sbin/
+mv -i /tmp/zabbix_agent/usr/bin/* /usr/bin/
+mv -i /tmp/zabbix_agent/etc/zabbix/* /etc/zabbix
+
+echo "Making logging folder for zabbix and changing its permissions under /var/log/"
+mkdir -p /var/log/zabbix
+chown -R $USER /var/log/zabbix
+chmod -R o+r /var/log/zabbix
+
+echo "Making pid-file folder for zabbix and changing its permissions under /var/run/"
+mkdir -p /var/run/zabbix/
+chown -R $USER /var/run/zabbix
+chmod -R o+r /var/run/zabbix
+
+echo "Moving systemd file to /etc/systemd/system/multi-user.target.wants"
+if [ -e ./zabbix-agent.service ]; then
+  mv ./zabbix-agent.service /etc/systemd/system/multi-user.target.wants/
+else
+  echo "Cant find zabbix-agent.service file. Make sure it is in the same directory than this install script"
+  exit 1
+fi
+
+echo "Cleaning up"
+rm -rf /tmp/zabbix_agent
+
+echo "Installation done."
+echo "Run command:"
+echo "sudo systemctl daemon-reload"
+echo "to reload systemd services"
+echo ""
+echo "to start agent, use command"
+echo "sudo systemctl start zabbix-agent.service"
+echo ""
+echo "to enable agent on system boot"
+echo "sudo systemctl enable zabbix-agent.service"
