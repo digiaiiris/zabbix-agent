@@ -10,7 +10,7 @@ rm -rf /var/run/zabbix
 echo "removing /var/log/zabbix"
 rm -rf /var/log/zabbix
 echo "removing service file"
-rm -f /etc/systemd/system/multi-user.target.wants/zabbix-agent.service
+rm -f /usr/lib/systemd/system/zabbix-agent.service
 echo "removing binaries"
 rm /usr/sbin/zabbix_agentd
 rm /usr/bin/zabbix_sender
