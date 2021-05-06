@@ -26,9 +26,6 @@ echo "Configuring agent based on options.cfg"
 sed -i "s/ServerActive=127.0.0.1/ServerActive=$ACTIVE_HOST/g" zabbix_build/etc/zabbix/zabbix_agentd.conf
 sed -i "s/Hostname=Zabbix server/# Hostname=Zabbix server/g" zabbix_build/etc/zabbix/zabbix_agentd.conf
 sed -i "s/# StartAgents=3/StartAgents=$START_AGENTS/g" zabbix_build/etc/zabbix/zabbix_agentd.conf
-sed -i "s/# TLSConnect=unencrypted/TLSConnect=psk/g" zabbix_build/etc/zabbix/zabbix_agentd.conf
-sed -i "s/# TLSPSKIdentity=/TLSPSKIdentity=$PSK_IDENTITY/g" zabbix_build/etc/zabbix/zabbix_agentd.conf
-sed -i 's/# TLSPSKFile=/TLSPSKFile='"$(echo "$PSK_FILE" | sed -e 's/[/.&]/\\&/g')"'/g' zabbix_build/etc/zabbix/zabbix_agentd.conf
 sed -i 's/# PidFile=\/tmp\/zabbix_agentd\.pid/PidFile='"$(echo "$PID_FILE" | sed -e 's/[/.&]/\\&/g')"'/g' zabbix_build/etc/zabbix/zabbix_agentd.conf
 sed -i 's/LogFile=\/tmp\/zabbix_agentd\.log/LogFile='"$(echo "$LOG_FILE" | sed -e 's/[/.&]/\\&/g')"'/g' zabbix_build/etc/zabbix/zabbix_agentd.conf
 
