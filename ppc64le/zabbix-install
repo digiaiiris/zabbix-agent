@@ -44,11 +44,6 @@ mkdir -p /var/log/zabbix
 chown -R $USER /var/log/zabbix
 chmod -R o+r /var/log/zabbix
 
-echo "Making pid-file folder for zabbix and changing its permissions under /var/run/"
-mkdir -p /var/run/zabbix/
-chown -R $USER /var/run/zabbix
-chmod -R o+r /var/run/zabbix
-
 echo "Moving systemd file to /etc/systemd/system/multi-user.target.wants"
 if [ -e ./zabbix-agent.service ]; then
   mv ./zabbix-agent.service /usr/lib/systemd/system/
