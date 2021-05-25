@@ -5,6 +5,8 @@ echo "stopping agent service"
 systemctl stop zabbix-agent.service
 echo "removing /etc/zabbix"
 rm -rf /etc/zabbix
+echo "removing /usr/lib/zabbix"
+rm -rf /usr/lib/zabbix
 echo "removing /var/log/zabbix"
 rm -rf /var/log/zabbix
 echo "removing service file"
